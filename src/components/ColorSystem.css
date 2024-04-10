@@ -1,0 +1,4 @@
+.colorSystemRow {
+  background-color: var(--color-neutral-100);
+  border-block-start: 2px var(--color-neutral-900);
+}
