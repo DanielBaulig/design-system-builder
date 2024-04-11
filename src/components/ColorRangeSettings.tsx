@@ -1,5 +1,5 @@
 export default function ColorRangeSettings({onAddColor}: { onAddColor: () => void }) {
-  return (
+  return (<>
     <button onClick={onAddColor}>+</button>
-  );
+  </>);
 }

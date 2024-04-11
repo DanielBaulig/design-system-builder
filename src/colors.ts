@@ -36,7 +36,7 @@ export const colorToHex = (color: Color) => {
 
 export const colorToHsl = (color: Color) => {
   const {h, l, s} = asHslColor(color).value;
-  return `hsl(${h}, ${l*100}%, ${s*100}%)`;
+  return `hsl(${h.toFixed(0)}, ${(s*100).toFixed(0)}%, ${(l*100).toFixed(0)}%)`;
 }
 
 export const hexToColor = (hex: string): Color => {
@@ -86,7 +86,7 @@ export const asHslColor = (color: Color): HslColor => {
 
       return {
         type: 'hsl',
-        value: { h, l, s }
+        value: { h, s, l }
       };
     case 'hsl':
       return color;

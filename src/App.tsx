@@ -3,52 +3,26 @@ import ColorSystem from './components/ColorSystem';
 import DefaultColorContext from './DefaultColorContext';
 import { white, asHslColor, colorToHsl } from './colors';
 import type { Color } from './colors';
+import './App.css';
 
 
 const useState = React.useState;
 
 type Colors = React.ComponentProps<typeof ColorSystem>['colors'];
 
-let exampleColors: Colors = {
-  primary: [
-    { type: 'rgb',
-      value: {
-        r: 255,
-        g: 0,
-        b: 0,
-      },
-    },
-    { type: 'rgb',
-      value: {
-        r: 0,
-        g: 255,
-        b: 0,
-      },
-    },
-    { type: 'rgb',
-      value: {
-        r: 0,
-        g: 0,
-        b: 255,
-      },
-    },
-  ],
-  neutral: [
-  ],
-  accents: [
-  ],
-};
-
 type DesignSystem = {
   colorSystem: Colors,
 }
 
+const defaultPrimaryColors = 9;
+const defaultNeutralColors = 9;
+
 function makeDesignSystem(): DesignSystem {
   return {
     colorSystem: {
-      primary: [],
-      neutral: [],
-      accents: [],
+      primary: Array(defaultPrimaryColors).fill(white),
+      neutral: Array(defaultNeutralColors).fill(white),
+      accents: {},
     }
   }
 }
@@ -111,7 +85,7 @@ function exportDesignSystem(system: DesignSystem) {
     const first = asHslColor(colors[0]);
     const last = asHslColor(colors[colors.length - 1]);
     // Sort lightest to darkest
-    if (first.value.l > last.value.l) {
+    if (first.value.l < last.value.l) {
       colors = colors.slice().reverse();
     }
     console.log('mapping colors', colors);
@@ -123,16 +97,14 @@ function exportDesignSystem(system: DesignSystem) {
   const colorSystems = [
     exportColors(system.colorSystem.primary, 'primary'),
     exportColors(system.colorSystem.neutral, 'neutral'),
+    ...Object.entries(system.colorSystem.accents).map(([accent, colors]) => exportColors(colors, accent)),
   ].filter(v => !!v);
   const css = `body {\n${colorSystems.join('\n')}\n}`
   saveAsFile(css, 'text/css', 'design-system.css');
 }
 
 function App() {
-  const [ colorSystem, setColorSystem ] = useState(exampleColors);
-  function setDesignSystem(system: DesignSystem) {
-    setColorSystem(system.colorSystem);
-  }
+  const [ designSystem, setDesignSystem ] = useState(() => makeDesignSystem());
   return (<>
     <DefaultColorContext.Provider value={white}>
       <header>
@@ -144,7 +116,7 @@ function App() {
               }
             }}>Reset</button></li>
             <li><button onClick={() => {
-              saveDesignSystem({ colorSystem });
+              saveDesignSystem(designSystem);
             }}>Save</button></li>
             <li><button onClick={async () => {
               const designSystem = await loadDesignSystem();
@@ -153,14 +125,20 @@ function App() {
               }
             }}>Load</button></li>
             <li><button onClick={() => {
-              exportDesignSystem({ colorSystem });
+              exportDesignSystem(designSystem);
             }}>Export</button></li>
           </ul>
         </nav>
       </header>
       <main>
         <section>
-          <ColorSystem colors={colorSystem} onUpdateColorSystem={setColorSystem}/>
+          <ColorSystem
+            colors={designSystem.colorSystem}
+            onUpdateColorSystem={colorSystem => setDesignSystem({
+              ...designSystem,
+              colorSystem,
+            })
+          }/>
         </section>
       </main>
     </DefaultColorContext.Provider>

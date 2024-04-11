@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-700);
 }
 
 code {
@@ -13,4 +14,6 @@ code {
     monospace;
 }
 
-
+* {
+  box-sizing: border-box;
+}
