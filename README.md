@@ -18,3 +18,5 @@ supports generating color swatch pallets. But it can save them, load them and
 export them to CSS. And it gives you a good overview of your current color system.
 
 Chech it out at https://danielbaulig.github.io/design-system-builder
+
+![A screenshot showing Design System Builder in action](github/designsystembuilder.png)
