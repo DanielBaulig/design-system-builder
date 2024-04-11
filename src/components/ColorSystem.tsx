@@ -14,17 +14,15 @@ function ColorSystemRow({label, colors, onUpdateColorRange, onRemove}: {label: s
 
   return (
     <div className="colorSystemRow">
-      <div>
-        {onRemove && (<button className={"colorSystemRow__removeRowButton"} onClick={onRemove}>-</button>)}
-        <h4>{label}</h4>
-      </div>
+      {onRemove && (<button className={"colorSystemRow__removeRowButton"} onClick={onRemove}>-</button>)}
+      <h4>{label}</h4>
       <div className="colorRange">
         <ColorRange colors={colors} onUpdateColorRange={onUpdateColorRange} />
       </div>
       <div className="colorRangeSettings">
-       <ColorRangeSettings
-         onAddColor={() => onUpdateColorRange(colors.concat([defaultColor]))}
-       />
+        <ColorRangeSettings
+          onAddColor={() => onUpdateColorRange(colors.concat([defaultColor]))}
+        />
       </div>
     </div>
   );

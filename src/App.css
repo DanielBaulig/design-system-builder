@@ -5,14 +5,14 @@ main {
 
 nav {
   margin: auto;
-  max-inline-size: min(95vw, 1100px);
+  max-inline-size: min(95vw, 1000px);
   padding-block-start: 20px;
   margin-block-end: 20px;
 }
 
 
 nav ul {
-  list-style-type: none;
+  padding: 0;
 }
 
 nav li {
