@@ -53,6 +53,7 @@ export const hexToColor = (hex: string): Color => {
   };
 }
 
+
 export const asHslColor = (color: Color): HslColor => {
   function hue(r: number, g: number, b: number, delta: number, cMax: number) {
     if (delta === 0) {
@@ -60,7 +61,7 @@ export const asHslColor = (color: Color): HslColor => {
     }
 
     if (cMax === r) {
-      return 60 * (((g - b) / delta) % 6);
+      return 60 * (((g - b) / delta) + (g < b ? 6 : 0));
     }
     if (cMax === g) {
       return 60 * ((b - r) / delta + 2);
